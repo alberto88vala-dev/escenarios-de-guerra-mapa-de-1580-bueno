@@ -77,7 +77,7 @@ export const mapPoints = [
     'Gerhard, Peter. Geografía histórica de la Nueva España. UNAM, 1996 [42-45]',
     'Jiménez Moreno, Wigberto. Estudios de Historia Colonial. INAH, 1958 [46-49]',
     'Santos Salinas, Miguel. La consolidación de la frontera norte del Obispado de Michoacán. El Colegio de Michoacán, 2012 [50-52]'],
-    imageUrl: '/imagenes/1.jpg',
+    imageUrl: '/imagenes/1.png',
     agn: null,
     agi: null,
     timelinePhase: '',
@@ -1000,10 +1000,23 @@ export const mapMetadata = {
   imageOverlayUrl: '/mapa_1580.jpg',          // ← coloca tu imagen en /public/
   // Bounds del ImageOverlay: esquinas [SW, NE] del mapa histórico sobre la geografía actual
   // Ajusta estos valores según el georeferenciamiento real del documento
-  imageBounds: [
-    [19.4000, -103.0000],   // esquina SW [lat, lng]
-    [22.3108, -101.5741],    // esquina NE [lat, lng]
-  ],
+  // DESPUÉS — pon esto:
+imageBounds: [
+  [20.30, -102.20],   // esquina SW — abajo-izquierda
+  [22.15, -100.20],   // esquina NE — arriba-derecha
+],
+
+// Las 4 esquinas del rombo para la superposición exacta
+// Vértice NORTE (punta arriba)    → entre Pinos y Villa de Reyes
+// Vértice SUR   (punta abajo)     → entre Salamanca e Irapuato
+// Vértice ESTE  (punta derecha)   → cerca de San Luis de la Paz
+// Vértice OESTE (punta izquierda) → cerca de Lagos de Moreno
+imageCorners: [
+  [21.70, -101.95],   // [0] arriba-izquierda
+  [22.10, -100.60],   // [1] arriba-derecha
+  [20.30, -102.20],   // [2] abajo-izquierda
+  [20.75, -100.25],   // [3] abajo-derecha
+],
   mapCenter: [21.2000, -100.9000],
   defaultZoom: 8,
 };

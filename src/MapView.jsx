@@ -1,26 +1,20 @@
 /**
  * MapView.jsx — arquitectura plana src/
- *
- * CORRECCIONES:
- * 1. Barra de controles FUERA del MapContainer → nunca desaparece
- * 2. Rotación real via SVGOverlay con un polígono de 4 esquinas
- *    → la imagen se queda fija al hacer zoom y paneo
+ * Lee las esquinas del rombo desde mapData.js → mapMetadata.imageCorners
  */
-
-import { useState, useCallback, useEffect, useRef } from "react";
-import { MapContainer, TileLayer, Marker, Popup, useMap, SVGOverlay } from "react-leaflet";
+ 
+import { useState, useCallback } from "react";
+import { MapContainer, TileLayer, Marker, Popup, SVGOverlay } from "react-leaflet";
 import L from "leaflet";
 import { mapPoints, mapMetadata } from "./mapData";
-
-// ── Fix íconos Leaflet con Vite ──────────────────────────────────────
+ 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
   iconUrl:       "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
   shadowUrl:     "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
 });
-
-// ── Colores y etiquetas ──────────────────────────────────────────────
+ 
 const CAT_COLORS = {
   1: "#2d6b5e", 2: "#8b3a0f", 3: "#c4882c",
   4: "#5a7c3a", 5: "#4a4a6e", 6: "#5a7a8a",
@@ -32,7 +26,7 @@ const CAT_LABELS = {
   5: "Infraestructura",  6: "Nodos Periféricos",
   7: "Límites del Mapa", 8: "Caminos",
 };
-
+ 
 function makePinIcon(color) {
   return L.divIcon({
     className: "",
@@ -50,76 +44,42 @@ function makePinIcon(color) {
     popupAnchor: [0, -26],
   });
 }
-
-// ═══════════════════════════════════════════════════════════════════
-// LAS 4 ESQUINAS DEL ROMBO — aquí está todo el control
-//
-// Cada par [lat, lng] es una esquina de tu mapa histórico
-// colocada sobre el mundo real.
-//
-// Basándome en tu captura, el rombo tiene:
-//   Vértice NORTE (punta de arriba)  → entre Pinos y Villa de Reyes
-//   Vértice SUR   (punta de abajo)   → entre Salamanca e Irapuato
-//   Vértice ESTE  (punta de derecha) → cerca de San Luis de la Paz
-//   Vértice OESTE (punta izquierda)  → cerca de Lagos de Moreno
-//
-// El orden para SVGOverlay es:
-//   [0] arriba-izquierda   [1] arriba-derecha
-//   [2] abajo-izquierda    [3] abajo-derecha
-//
-// CÓMO AJUSTAR:
-//   - Pon el slider al 50% para ver ambos mapas a la vez
-//   - Mueve UNA esquina a la vez, guarda (Ctrl+S) y compara
-//   - Usa los pins como referencia:
-//       San Miguel  [20.9142, -100.7436]
-//       San Felipe  [21.4816, -101.2163]
-// ═══════════════════════════════════════════════════════════════════
-const ESQUINAS = [
-  [22.05, -102.00],   // [0] arriba-izquierda  — vértice NORTE-OESTE
-  [22.05, -100.35],   // [1] arriba-derecha    — vértice NORTE-ESTE
-  [20.35, -102.00],   // [2] abajo-izquierda   — vértice SUR-OESTE
-  [20.35, -100.35],   // [3] abajo-derecha     — vértice SUR-ESTE
-];
-
-// El bounding box que contiene las 4 esquinas (Leaflet lo necesita
-// para saber en qué zona del mundo dibujar el SVG).
-// No lo toques — se calcula automáticamente de ESQUINAS.
-const BOUNDS = [
-  [
-    Math.min(...ESQUINAS.map(e => e[0])),  // lat mínima (sur)
-    Math.min(...ESQUINAS.map(e => e[1])),  // lng mínima (oeste)
-  ],
-  [
-    Math.max(...ESQUINAS.map(e => e[0])),  // lat máxima (norte)
-    Math.max(...ESQUINAS.map(e => e[1])),  // lng máxima (este)
-  ],
-];
-
-// ── Imagen histórica anclada con SVGOverlay ──────────────────────────
-// SVGOverlay le dice a Leaflet exactamente qué zona del mundo ocupa,
-// así la imagen se queda fija al hacer zoom y paneo.
+ 
 function HistoricalMap({ opacity }) {
-  const map = useMap();
-
-  // Convertir coordenadas geográficas a posición en % dentro del SVG
-  const toPercent = (lat, lng) => {
-    const [[minLat, minLng], [maxLat, maxLng]] = BOUNDS;
-    const x = ((lng - minLng) / (maxLng - minLng)) * 100;
-    const y = ((maxLat - lat) / (maxLat - minLat)) * 100; // Y invertida
-    return { x, y };
-  };
-
-  // Los 4 puntos del polígono en coordenadas % del SVG viewBox
-  const p = ESQUINAS.map(([lat, lng]) => toPercent(lat, lng));
-
-  // String de puntos para el elemento <polygon>
-  const points = p.map(({ x, y }) => `${x},${y}`).join(" ");
-
+  const corners = mapMetadata.imageCorners || [
+    [mapMetadata.imageBounds[1][0], mapMetadata.imageBounds[0][1]],
+    [mapMetadata.imageBounds[1][0], mapMetadata.imageBounds[1][1]],
+    [mapMetadata.imageBounds[0][0], mapMetadata.imageBounds[0][1]],
+    [mapMetadata.imageBounds[0][0], mapMetadata.imageBounds[1][1]],
+  ];
+ 
+  const allLats = corners.map(c => c[0]);
+  const allLngs = corners.map(c => c[1]);
+  const bounds = [
+    [Math.min(...allLats), Math.min(...allLngs)],
+    [Math.max(...allLats), Math.max(...allLngs)],
+  ];
+ 
+  const latRange = bounds[1][0] - bounds[0][0];
+  const lngRange = bounds[1][1] - bounds[0][1];
+ 
+  const toXY = ([lat, lng]) => ({
+    x: ((lng - bounds[0][1]) / lngRange) * 100,
+    y: ((bounds[1][0] - lat) / latRange) * 100,
+  });
+ 
+  const pts = corners.map(toXY);
+ 
+  // Orden correcto: arriba-izq → arriba-der → abajo-der → abajo-izq
+  const polygonPoints = [
+    pts[0], pts[1], pts[3], pts[2],
+  ].map(p => `${p.x},${p.y}`).join(" ");
+ 
   return (
-    <SVGOverlay bounds={BOUNDS} opacity={opacity / 100}>
+    <SVGOverlay bounds={bounds} opacity={opacity / 100} zIndex={10}>
       <defs>
-        <clipPath id="mapa-clip">
-          <polygon points={points} />
+        <clipPath id="rombo-clip">
+          <polygon points={polygonPoints} />
         </clipPath>
       </defs>
       <image
@@ -127,19 +87,18 @@ function HistoricalMap({ opacity }) {
         x="0" y="0"
         width="100%" height="100%"
         preserveAspectRatio="none"
-        clipPath="url(#mapa-clip)"
+        clipPath="url(#rombo-clip)"
       />
     </SVGOverlay>
   );
 }
-
-// ── Componente principal ─────────────────────────────────────────────
+ 
 export default function MapView({ onSelectPoint }) {
   const [opacity, setOpacity] = useState(70);
   const [activeCategories, setActiveCategories] = useState(
     new Set([1, 2, 3, 4, 5, 6, 7])
   );
-
+ 
   const toggleCat = useCallback((id) => {
     setActiveCategories((prev) => {
       const next = new Set(prev);
@@ -147,18 +106,14 @@ export default function MapView({ onSelectPoint }) {
       return next;
     });
   }, []);
-
+ 
   const visiblePoints = mapPoints.filter(
     (p) => !p.iconographyOnly && p.coords && activeCategories.has(p.categoryId)
   );
-
+ 
   return (
-    // ⚠️  IMPORTANTE: este div envuelve TANTO la barra de controles
-    // COMO el mapa — pero la barra está FUERA de MapContainer,
-    // así nunca la afectan los eventos de clic del mapa.
     <div style={{ display: "flex", flexDirection: "column", width: "100%", height: "100%" }}>
-
-      {/* ── Barra de controles — FUERA del mapa ── */}
+ 
       <div className="map-controls-bar">
         <span className="controls-label">Opacidad:</span>
         <div className="opacity-control">
@@ -173,9 +128,7 @@ export default function MapView({ onSelectPoint }) {
           <span style={{ fontSize: ".75rem", color: "var(--ink-light)" }}>100%</span>
           <span className="opacity-value">{opacity}%</span>
         </div>
-
         <div className="bar-divider" />
-
         <span className="controls-label">Filtrar:</span>
         <div className="filter-chips">
           {[1,2,3,4,5,6,7,8].map((id) => (
@@ -190,8 +143,7 @@ export default function MapView({ onSelectPoint }) {
           ))}
         </div>
       </div>
-
-      {/* ── Mapa — ocupa el espacio restante ── */}
+ 
       <div style={{ flex: 1, minHeight: 0 }}>
         <MapContainer
           center={mapMetadata.mapCenter}
@@ -204,22 +156,15 @@ export default function MapView({ onSelectPoint }) {
             attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
             maxZoom={18}
           />
-
-          {/* ── Imagen histórica fija con forma de rombo ── */}
+ 
           <HistoricalMap opacity={opacity} />
-
-          {/* ── Marcadores ── */}
+ 
           {visiblePoints.map((point) => {
             const color    = CAT_COLORS[point.categoryId] || "#666";
             const catLabel = CAT_LABELS[point.categoryId] || "";
             const excerpt  = point.shortDescription.split(" ").slice(0, 18).join(" ") + "…";
-
             return (
-              <Marker
-                key={point.id}
-                position={point.coords}
-                icon={makePinIcon(color)}
-              >
+              <Marker key={point.id} position={point.coords} icon={makePinIcon(color)}>
                 <Popup maxWidth={275}>
                   <div className="popup-inner">
                     {point.imageUrl && (
@@ -255,3 +200,4 @@ export default function MapView({ onSelectPoint }) {
     </div>
   );
 }
+ 
