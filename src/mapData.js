@@ -2,50 +2,23 @@
  * mapData.js
  * Esquema de datos para "Escenarios de Guerra"
  * Mapa de San Miguel y San Felipe de los Chichimecas (ca. 1579-1580)
- *
- * Conversión de coordenadas:
- *   Grados°Minutos′Segundos″ → Decimal: D + M/60 + S/3600
- *   Ejemplo: 20°53′26″N = 20 + 53/60 + 26/3600 = 20.8906°
  */
 
-// ─── CATEGORÍAS ──────────────────────────────────────────────────────────────
 export const CATEGORIES = {
-  ASENTAMIENTOS:     { id: 1, label: 'Asentamientos',              color: '#c9952e', icon: 'MapPin'        },
-  ESCENARIOS:        { id: 2, label: 'Escenarios y Actores',       color: '#8b1a1a', icon: 'Swords'        },
-  COSMOVISION:       { id: 3, label: 'Símbolos de Cosmovisión',    color: '#7c5cbf', icon: 'Sun'           },
-  NATURALEZA:        { id: 4, label: 'Naturaleza y Recursos',      color: '#3a5a2a', icon: 'Leaf'          },
-  DEFENSIVA:         { id: 5, label: 'Infraestructura Defensiva',  color: '#4a3a2a', icon: 'Shield'        },
-  NODOS:             { id: 6, label: 'Nodos Periféricos',          color: '#5a7a8a', icon: 'Building2'     },
-  LIMITES:           { id: 7, label: 'Dentro de los Límites',      color: '#8a8070', icon: 'Landmark'      },
-  CAMINOS:           { id: 8, label: 'Caminos',                    color: '#a07040', icon: 'Route'         },
+  ASENTAMIENTOS: { id: 1, label: 'Asentamientos',             color: '#c9952e', icon: 'MapPin'    },
+  ESCENARIOS:    { id: 2, label: 'Escenarios y Actores',      color: '#8b1a1a', icon: 'Swords'    },
+  COSMOVISION:   { id: 3, label: 'Símbolos de Cosmovisión',   color: '#7c5cbf', icon: 'Sun'       },
+  NATURALEZA:    { id: 4, label: 'Naturaleza y Recursos',     color: '#3a5a2a', icon: 'Leaf'      },
+  DEFENSIVA:     { id: 5, label: 'Infraestructura Defensiva', color: '#4a3a2a', icon: 'Shield'    },
+  NODOS:         { id: 6, label: 'Nodos Periféricos',         color: '#5a7a8a', icon: 'Building2' },
+  LIMITES:       { id: 7, label: 'Dentro de los Límites',     color: '#8a8070', icon: 'Landmark'  },
+  CAMINOS:       { id: 8, label: 'Caminos',                   color: '#a07040', icon: 'Route'     },
 };
 
-// ─── ESTRUCTURA DE UN PUNTO ───────────────────────────────────────────────────
-/**
- * @typedef {Object} MapPoint
- * @property {number}      id
- * @property {number}      categoryId          - Referencia a CATEGORIES
- * @property {string}      name                - Nombre del elemento
- * @property {[number,number]|null} coords     - [lat, lng] en decimal, null si es iconografía sin coord
- * @property {boolean}     iconographyOnly     - true si no tiene coords precisas (elemento pictórico)
- * @property {string}      shortDescription    - Descripción breve para popup
- * // ── Campos para rellenar posteriormente ──────────────────────────────────
- * @property {string}      historicalDesc      - Descripción histórica extensa
- * @property {string}      paleographicAnalysis- Análisis paleográfico-pictórico
- * @property {string}      visualGrammar       - Convenciones europeas vs mesoamericanas
- * @property {string[]}    primarySources      - Fuentes y documentos primarios
- * @property {string[]}    bibliography        - Referencias bibliográficas
- * @property {string|null} imageUrl            - URL de imagen de apoyo
- * @property {string|null} agn                 - Referencia AGN
- * @property {string|null} agi                 - Referencia AGI (Archivo General de Indias)
- * @property {string|null} timelinePhase       - Fase del conflicto (1550-1560 | 1561-1575 | 1576-1590 | 1591-1600)
- */
-
-// ─── DATOS ────────────────────────────────────────────────────────────────────
 export const mapPoints = [
 
   // ══════════════════════════════════════════════════════════════════
-  // 1. ASENTAMIENTOS (Villas y Pueblos)
+  // 1. ASENTAMIENTOS
   // ══════════════════════════════════════════════════════════════════
   {
     id: 1,
@@ -55,28 +28,30 @@ export const mapPoints = [
     iconographyOnly: false,
     shortDescription: 'Villa fundada ca. 1555, núcleo hispano en la frontera chichimeca.',
     historicalDesc: 'Considerada la "Puerta de la Tierra Adentro" y la "garganta" por la que transitaban las mercancías hacia el norte, fue el primer asentamiento defensivo de gran escala en la región. Tuvo un origen doble: una fundación primitiva como "San Miguel de los Chichimecas" hacia 1542, destinada a la congregación de indios, y una refundación jurídica en 1555 como villa de españoles. Esta última fue ordenada por el virrey Luis de Velasco específicamente para servir como "villa protectora" ante los asaltos de guamares y guachichiles, asegurando el flujo de plata en el Camino Real.',
-    paleographicAnalysis: 'Muestra una iglesia con una cruz coronandola',
+    paleographicAnalysis: 'Muestra una iglesia con una cruz coronándola.',
     visualGrammar: '',
     primarySources: [
-    'AGN, Ramo Tierras, vol. 1783, exp. 1 — Títulos de las Villas de San Miguel y San Felipe, 1559-1562 [1-3]',
-    'AGN, Ramo Mercedes, vol. 4, f. 280v — Mandamiento de Luis de Velasco I para la fundación de la villa, 15 de diciembre de 1555 [3-5]',
-    'RAH, Madrid, Secc. Cartografía — Mapa de la Relación Geográfica de San Miguel y San Felipe de los Chichimecas, 1580 [6-8]',
-    'BNF, Département des manuscrits, Espagnol 271 — Santa María, Fray Guillermo de, Guerra de los Chichimecas, 1575-1580 [2, 9-11]',
-    'AGI, México, leg. 2547 — Parecer de los teólogos de México sobre la justicia de la guerra, 1570 [12, 13]',
-    'Velázquez, Juan Alonso — Relación del clérigo beneficiado de la villa de San Miguel sobre la guerra y los remedios, 1582 [14, 15]',
-    'Ciudad Real, Antonio de — Tratado curioso y docto de las grandezas de la Nueva España, 1588 [16, 17]',
-    'Mendieta, Fray Gerónimo de — Historia eclesiástica indiana, 1596 [18, 19]',
-    'Rea, Fray Alonso de la — Crónica de la Orden de N. Seráfico P. S. Francisco de Michoacán, 1639 [20, 21]',
-    'Villaseñor y Sánchez, Joseph Antonio — Teatro Americano, descripción general de los reynos y provincias de la Nueva España, 1746 [22]'
-  ],
-    bibliography: ['Powell, Philip Wayne. La Guerra Chichimeca (1550-1600). Fondo de Cultura Económica, 1977 [23-27]',
-    'Wright Carr, David Charles. La conquista del Bajío y los orígenes de San Miguel de Allende. FCE, 1999 [2, 28-30]',
-    'Carrillo Cázares, Alberto. El debate sobre la Guerra Chichimeca (1531-1585). El Colegio de Michoacán, 2000 [31-35]',
-    'Maza, Francisco de la. San Miguel de Allende: su historia, sus monumentos. UNAM, 1939 [36, 37]',
-    'Puig Carrasco, Alberto. Análisis codicológico del Mapa de la Relación Geográfica de San Miguel y San Felipe. Distinta Tinta, 2018 [38-41]',
-    'Gerhard, Peter. Geografía histórica de la Nueva España. UNAM, 1996 [42-45]',
-    'Jiménez Moreno, Wigberto. Estudios de Historia Colonial. INAH, 1958 [46-49]',
-    'Santos Salinas, Miguel. La consolidación de la frontera norte del Obispado de Michoacán. El Colegio de Michoacán, 2012 [50-52]'],
+      'AGN, Ramo Tierras, vol. 1783, exp. 1 — Títulos de las Villas de San Miguel y San Felipe, 1559-1562 [1-3]',
+      'AGN, Ramo Mercedes, vol. 4, f. 280v — Mandamiento de Luis de Velasco I para la fundación de la villa, 15 de diciembre de 1555 [3-5]',
+      'RAH, Madrid, Secc. Cartografía — Mapa de la Relación Geográfica de San Miguel y San Felipe de los Chichimecas, 1580 [6-8]',
+      'BNF, Département des manuscrits, Espagnol 271 — Santa María, Fray Guillermo de, Guerra de los Chichimecas, 1575-1580 [2, 9-11]',
+      'AGI, México, leg. 2547 — Parecer de los teólogos de México sobre la justicia de la guerra, 1570 [12, 13]',
+      'Velázquez, Juan Alonso — Relación del clérigo beneficiado de la villa de San Miguel sobre la guerra y los remedios, 1582 [14, 15]',
+      'Ciudad Real, Antonio de — Tratado curioso y docto de las grandezas de la Nueva España, 1588 [16, 17]',
+      'Mendieta, Fray Gerónimo de — Historia eclesiástica indiana, 1596 [18, 19]',
+      'Rea, Fray Alonso de la — Crónica de la Orden de N. Seráfico P. S. Francisco de Michoacán, 1639 [20, 21]',
+      'Villaseñor y Sánchez, Joseph Antonio — Teatro Americano, 1746 [22]',
+    ],
+    bibliography: [
+      'Powell, Philip Wayne. La Guerra Chichimeca (1550-1600). FCE, 1977 [23-27]',
+      'Wright Carr, David Charles. La conquista del Bajío y los orígenes de San Miguel de Allende. FCE, 1999 [2, 28-30]',
+      'Carrillo Cázares, Alberto. El debate sobre la Guerra Chichimeca (1531-1585). El Colegio de Michoacán, 2000 [31-35]',
+      'Maza, Francisco de la. San Miguel de Allende: su historia, sus monumentos. UNAM, 1939 [36, 37]',
+      'Puig Carrasco, Alberto. Análisis codicológico del Mapa de la Relación Geográfica de San Miguel y San Felipe. Distinta Tinta, 2018 [38-41]',
+      'Gerhard, Peter. Geografía histórica de la Nueva España. UNAM, 1996 [42-45]',
+      'Jiménez Moreno, Wigberto. Estudios de Historia Colonial. INAH, 1958 [46-49]',
+      'Santos Salinas, Miguel. La consolidación de la frontera norte del Obispado de Michoacán. El Colegio de Michoacán, 2012 [50-52]',
+    ],
     imageUrl: '/imagenes/1.png',
     agn: null,
     agi: null,
@@ -123,7 +98,6 @@ export const mapPoints = [
     id: 4,
     categoryId: 1,
     name: 'Puerto de Nieto',
-    // 20°53′26″N 100°32′12″W → 20+53/60+26/3600 = 20.8906 | 100+32/60+12/3600 = 100.5367
     coords: [20.8906, -100.5367],
     iconographyOnly: false,
     shortDescription: 'Paso o puerto en el camino real; punto de paso entre los asentamientos.',
@@ -142,7 +116,6 @@ export const mapPoints = [
     id: 5,
     categoryId: 1,
     name: 'Llano de la Mohina',
-    // 21°07′52.7″N 100°37′23.4″W → 21+7/60+52.7/3600 = 21.1313 | 100+37/60+23.4/3600 = 100.6232
     coords: [21.1313, -100.6232],
     iconographyOnly: false,
     shortDescription: 'Llanura mencionada en documentos del período; escenario de incursiones.',
@@ -273,7 +246,6 @@ export const mapPoints = [
     id: 12,
     categoryId: 2,
     name: 'Soldados de Presidio y Escolta',
-    // Mismas coords que Llano de la Mohina según la tabla original
     coords: [21.1313, -100.6232],
     iconographyOnly: false,
     shortDescription: 'Representación de soldados de presidio; figura del poder militar colonial en la frontera.',
@@ -344,7 +316,7 @@ export const mapPoints = [
   },
 
   // ══════════════════════════════════════════════════════════════════
-  // 3. SÍMBOLOS DE COSMOVISIÓN E IDENTIDAD
+  // 3. SÍMBOLOS DE COSMOVISIÓN
   // ══════════════════════════════════════════════════════════════════
   {
     id: 16,
@@ -404,7 +376,6 @@ export const mapPoints = [
     id: 19,
     categoryId: 3,
     name: 'La Mojonera de los Indios',
-    // Mismas coords que San Miguel el Grande según tabla original
     coords: [20.9142, -100.7436],
     iconographyOnly: false,
     shortDescription: 'Marca territorial indígena; límite simbólico y jurídico representado en el mapa.',
@@ -421,7 +392,7 @@ export const mapPoints = [
   },
 
   // ══════════════════════════════════════════════════════════════════
-  // 4. NATURALEZA Y RECURSOS (Flora y Fauna)
+  // 4. NATURALEZA Y RECURSOS
   // ══════════════════════════════════════════════════════════════════
   {
     id: 20,
@@ -627,7 +598,7 @@ export const mapPoints = [
   },
 
   // ══════════════════════════════════════════════════════════════════
-  // 6. NODOS PERIFÉRICOS Y CENTROS DE PODER
+  // 6. NODOS PERIFÉRICOS
   // ══════════════════════════════════════════════════════════════════
   {
     id: 31,
@@ -853,7 +824,6 @@ export const mapPoints = [
     id: 43,
     categoryId: 7,
     name: 'Ocampo',
-    // Coord parcial en la fuente: solo lat 21.6481, lng por definir → se asigna approx.
     coords: [21.6481, -101.5000],
     iconographyOnly: false,
     shortDescription: 'Localidad en el límite norte del mapa; coordenadas pendientes de precisar.',
@@ -888,7 +858,8 @@ export const mapPoints = [
     agn: null,
     agi: null,
     timelinePhase: '',
-    routeCoords: [], // [[lat,lng], [lat,lng], ...] para capa vectorial futura
+    routeCoords: [],
+    enlaces: [],
   },
   {
     id: 45,
@@ -997,26 +968,40 @@ export const mapMetadata = {
   dimensions: 'Por definir (cm)',
   technique: 'Pintura sobre papel europeo; convenciones pictóricas mesoamericanas',
   language: 'Sin texto escrito (pictórico)',
-  imageOverlayUrl: '/mapa_1580.jpg',          // ← coloca tu imagen en /public/
-  // Bounds del ImageOverlay: esquinas [SW, NE] del mapa histórico sobre la geografía actual
-  // Ajusta estos valores según el georeferenciamiento real del documento
-  // DESPUÉS — pon esto:
-imageBounds: [
-  [20.30, -102.20],   // esquina SW — abajo-izquierda
-  [22.15, -100.20],   // esquina NE — arriba-derecha
-],
 
-// Las 4 esquinas del rombo para la superposición exacta
-// Vértice NORTE (punta arriba)    → entre Pinos y Villa de Reyes
-// Vértice SUR   (punta abajo)     → entre Salamanca e Irapuato
-// Vértice ESTE  (punta derecha)   → cerca de San Luis de la Paz
-// Vértice OESTE (punta izquierda) → cerca de Lagos de Moreno
-imageCorners: [
-  [21.70, -101.95],   // [0] arriba-izquierda
-  [22.10, -100.60],   // [1] arriba-derecha
-  [20.30, -102.20],   // [2] abajo-izquierda
-  [20.75, -100.25],   // [3] abajo-derecha
-],
+  // ── Ruta de la imagen ──────────────────────────────────────────────
+  imageOverlayUrl: '/mapa_1580.jpg',
+
+  // ── Bounding box general (necesario para Leaflet) ──────────────────
+  // No lo edites — se calcula automáticamente desde imageCorners
+  imageBounds: [
+    [20.30, -102.20],
+    [22.15, -100.20],
+  ],
+
+  // ═══════════════════════════════════════════════════════════════════
+  // LAS 4 ESQUINAS DE TU MAPA HISTÓRICO
+  // Aquí es donde ajustas la posición del rombo sobre el mapa actual.
+  //
+  // Orden OBLIGATORIO:
+  //   [0] arriba-izquierda   (esquina noroeste del rombo)
+  //   [1] arriba-derecha     (esquina noreste del rombo)
+  //   [2] abajo-izquierda    (esquina suroeste del rombo)
+  //   [3] abajo-derecha      (esquina sureste del rombo)
+  //
+  // Cómo ajustar:
+  //   - Pon el slider al 50% para ver ambos mapas
+  //   - Mueve UNA esquina a la vez y guarda (Ctrl+S)
+  //   - Usa San Miguel [20.9142, -100.7436] y
+  //     San Felipe [21.4816, -101.2163] como referencias
+  // ═══════════════════════════════════════════════════════════════════
+  imageCorners: [
+    [21.70, -101.95],   // [0] arriba-izquierda
+    [22.10, -100.60],   // [1] arriba-derecha
+    [20.30, -102.20],   // [2] abajo-izquierda
+    [20.75, -100.25],   // [3] abajo-derecha
+  ],
+
   mapCenter: [21.2000, -100.9000],
   defaultZoom: 8,
 };

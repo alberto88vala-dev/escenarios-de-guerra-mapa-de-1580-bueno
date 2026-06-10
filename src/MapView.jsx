@@ -1,13 +1,16 @@
 /**
  * MapView.jsx — arquitectura plana src/
- * Lee las esquinas del rombo desde mapData.js → mapMetadata.imageCorners
+ * CORRECCIÓN DEFINITIVA:
+ * - Usa L.SVG nativo de Leaflet (sin SVGOverlay de React) → imagen fija al hacer zoom
+ * - Controles FUERA del MapContainer → nunca desaparecen
  */
  
-import { useState, useCallback } from "react";
-import { MapContainer, TileLayer, Marker, Popup, SVGOverlay } from "react-leaflet";
+import { useState, useCallback, useEffect, useRef } from "react";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
 import { mapPoints, mapMetadata } from "./mapData";
  
+// ── Fix íconos Leaflet con Vite ──────────────────────────────────────
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
@@ -45,54 +48,140 @@ function makePinIcon(color) {
   });
 }
  
-function HistoricalMap({ opacity }) {
-  const corners = mapMetadata.imageCorners || [
-    [mapMetadata.imageBounds[1][0], mapMetadata.imageBounds[0][1]],
-    [mapMetadata.imageBounds[1][0], mapMetadata.imageBounds[1][1]],
-    [mapMetadata.imageBounds[0][0], mapMetadata.imageBounds[0][1]],
-    [mapMetadata.imageBounds[0][0], mapMetadata.imageBounds[1][1]],
-  ];
+// ═══════════════════════════════════════════════════════════════════
+// COMPONENTE IMAGEN HISTÓRICA
+// Usa la API nativa de Leaflet (no SVGOverlay de React-Leaflet)
+// Esto garantiza que la imagen quede FIJA al hacer zoom y paneo.
+//
+// Lee las coordenadas desde mapData.js → mapMetadata.imageCorners
+// Orden de las 4 esquinas:
+//   [0] arriba-izquierda   [1] arriba-derecha
+//   [2] abajo-izquierda    [3] abajo-derecha
+// ═══════════════════════════════════════════════════════════════════
+function HistoricalImageLayer({ opacity }) {
+  const map = useMap();
+  const overlayRef = useRef(null);
+  const svgRef     = useRef(null);
  
-  const allLats = corners.map(c => c[0]);
-  const allLngs = corners.map(c => c[1]);
-  const bounds = [
-    [Math.min(...allLats), Math.min(...allLngs)],
-    [Math.max(...allLats), Math.max(...allLngs)],
-  ];
+  useEffect(() => {
+    if (!map) return;
  
-  const latRange = bounds[1][0] - bounds[0][0];
-  const lngRange = bounds[1][1] - bounds[0][1];
+    const corners = mapMetadata.imageCorners;
+    if (!corners || corners.length !== 4) return;
  
-  const toXY = ([lat, lng]) => ({
-    x: ((lng - bounds[0][1]) / lngRange) * 100,
-    y: ((bounds[1][0] - lat) / latRange) * 100,
-  });
+    // Bounding box que contiene todas las esquinas
+    const lats = corners.map(c => c[0]);
+    const lngs = corners.map(c => c[1]);
+    const bounds = L.latLngBounds(
+      [Math.min(...lats), Math.min(...lngs)],
+      [Math.max(...lats), Math.max(...lngs)]
+    );
  
-  const pts = corners.map(toXY);
+    // Crear capa SVG nativa de Leaflet anclada al bounds
+    const svgLayer = L.svgOverlay(
+      document.createElementNS("http://www.w3.org/2000/svg", "svg"),
+      bounds,
+      { opacity: opacity / 100, zIndex: 10 }
+    );
  
-  // Orden correcto: arriba-izq → arriba-der → abajo-der → abajo-izq
-  const polygonPoints = [
-    pts[0], pts[1], pts[3], pts[2],
-  ].map(p => `${p.x},${p.y}`).join(" ");
+    // Construir el SVG con clipPath en forma de rombo
+    function buildSVG() {
+      // Proyectar las 4 esquinas geográficas a píxeles en el mapa actual
+      const projected = corners.map(([lat, lng]) =>
+        map.latLngToLayerPoint(L.latLng(lat, lng))
+      );
+      const boundsPoint = {
+        topLeft:     map.latLngToLayerPoint(bounds.getNorthWest()),
+        bottomRight: map.latLngToLayerPoint(bounds.getSouthEast()),
+      };
+      const w = boundsPoint.bottomRight.x - boundsPoint.topLeft.x;
+      const h = boundsPoint.bottomRight.y - boundsPoint.topLeft.y;
  
-  return (
-    <SVGOverlay bounds={bounds} opacity={opacity / 100} zIndex={10}>
-      <defs>
-        <clipPath id="rombo-clip">
-          <polygon points={polygonPoints} />
-        </clipPath>
-      </defs>
-      <image
-        href={mapMetadata.imageOverlayUrl}
-        x="0" y="0"
-        width="100%" height="100%"
-        preserveAspectRatio="none"
-        clipPath="url(#rombo-clip)"
-      />
-    </SVGOverlay>
-  );
+      // Convertir puntos absolutos a relativos dentro del SVG
+      const rel = projected.map(p => ({
+        x: p.x - boundsPoint.topLeft.x,
+        y: p.y - boundsPoint.topLeft.y,
+      }));
+ 
+      // Orden: arriba-izq [0] → arriba-der [1] → abajo-der [3] → abajo-izq [2]
+      const polyPoints = [rel[0], rel[1], rel[3], rel[2]]
+        .map(p => `${p.x},${p.y}`)
+        .join(" ");
+ 
+      const svgNS = "http://www.w3.org/2000/svg";
+      const svg = document.createElementNS(svgNS, "svg");
+      svg.setAttribute("xmlns",   svgNS);
+      svg.setAttribute("width",   String(w));
+      svg.setAttribute("height",  String(h));
+      svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
+      svg.style.overflow = "visible";
+ 
+      const defs = document.createElementNS(svgNS, "defs");
+      const clip = document.createElementNS(svgNS, "clipPath");
+      clip.setAttribute("id", "hist-clip");
+      const poly = document.createElementNS(svgNS, "polygon");
+      poly.setAttribute("points", polyPoints);
+      clip.appendChild(poly);
+      defs.appendChild(clip);
+      svg.appendChild(defs);
+ 
+      const img = document.createElementNS(svgNS, "image");
+      img.setAttribute("href",               mapMetadata.imageOverlayUrl);
+      img.setAttribute("x",                  "0");
+      img.setAttribute("y",                  "0");
+      img.setAttribute("width",              String(w));
+      img.setAttribute("height",             String(h));
+      img.setAttribute("preserveAspectRatio","none");
+      img.setAttribute("clip-path",          "url(#hist-clip)");
+      svg.appendChild(img);
+ 
+      return svg;
+    }
+ 
+    // Actualizar el SVG cada vez que el mapa se mueve/zoom
+    function update() {
+      if (!overlayRef.current) return;
+      const newSvg = buildSVG();
+      const container = overlayRef.current.getElement();
+      if (container) {
+        container.innerHTML = "";
+        container.appendChild(newSvg);
+      }
+      svgRef.current = newSvg;
+    }
+ 
+    svgLayer.addTo(map);
+    overlayRef.current = svgLayer;
+ 
+    // Construir SVG inicial después de que Leaflet renderice la capa
+    setTimeout(() => {
+      update();
+    }, 50);
+ 
+    // Re-dibujar en cada zoom y movimiento
+    map.on("zoomend moveend", update);
+ 
+    return () => {
+      map.off("zoomend moveend", update);
+      if (overlayRef.current) {
+        map.removeLayer(overlayRef.current);
+        overlayRef.current = null;
+      }
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [map]);
+ 
+  // Actualizar opacidad sin re-crear la capa
+  useEffect(() => {
+    if (overlayRef.current) {
+      overlayRef.current.setOpacity(opacity / 100);
+    }
+  }, [opacity]);
+ 
+  return null;
 }
  
+// ── Componente principal ─────────────────────────────────────────────
 export default function MapView({ onSelectPoint }) {
   const [opacity, setOpacity] = useState(70);
   const [activeCategories, setActiveCategories] = useState(
@@ -114,6 +203,7 @@ export default function MapView({ onSelectPoint }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", width: "100%", height: "100%" }}>
  
+      {/* ── Barra de controles — FUERA del MapContainer ── */}
       <div className="map-controls-bar">
         <span className="controls-label">Opacidad:</span>
         <div className="opacity-control">
@@ -144,6 +234,7 @@ export default function MapView({ onSelectPoint }) {
         </div>
       </div>
  
+      {/* ── Contenedor del mapa ── */}
       <div style={{ flex: 1, minHeight: 0 }}>
         <MapContainer
           center={mapMetadata.mapCenter}
@@ -157,14 +248,21 @@ export default function MapView({ onSelectPoint }) {
             maxZoom={18}
           />
  
-          <HistoricalMap opacity={opacity} />
+          {/* Imagen histórica — fija al hacer zoom y paneo */}
+          <HistoricalImageLayer opacity={opacity} />
  
+          {/* Marcadores */}
           {visiblePoints.map((point) => {
             const color    = CAT_COLORS[point.categoryId] || "#666";
             const catLabel = CAT_LABELS[point.categoryId] || "";
             const excerpt  = point.shortDescription.split(" ").slice(0, 18).join(" ") + "…";
+ 
             return (
-              <Marker key={point.id} position={point.coords} icon={makePinIcon(color)}>
+              <Marker
+                key={point.id}
+                position={point.coords}
+                icon={makePinIcon(color)}
+              >
                 <Popup maxWidth={275}>
                   <div className="popup-inner">
                     {point.imageUrl && (
