@@ -201,8 +201,8 @@ const CREDITS = {
     fuente: "Archivo General de Indias (AGI), Sevilla — MP-MEXICO, 560",
   },
   redibujado: {
-    autor:  "Redibujo: [Tu nombre / institución]",
-    fuente: "Basado en AGI, MP-MEXICO, 560 — Elaboración propia, 2024",
+    autor:  "Redibujo: [Marcelo Ramirez Ruiz / UNAM]",
+    fuente: "Marcelo Ramirez Ruiz",
   },
 };
 
