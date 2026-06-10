@@ -1,5 +1,3 @@
-mkdir -p /home/claude/entrega/src
-cat > /home/claude/entrega/src/MapView.jsx << 'EOF'
 /**
  * MapView.jsx
  * Correcciones:
@@ -386,4 +384,3 @@ export default function MapView({ onSelectPoint }) {
     </div>
   );
 }
-EOF

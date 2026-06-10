@@ -1,6 +1,3 @@
-bash
-
-cat > /home/claude/entrega/src/mapData.js << 'EOF'
 /**
  * mapData.js — Escenarios de Guerra
  * Mapa de San Miguel y San Felipe de los Chichimecas (ca. 1579-1580)
@@ -230,6 +227,3 @@ export const mapMetadata = {
   mapCenter:   [21.2000, -100.9000],
   defaultZoom: 8,
 };
-
-export default mapPoints;
-EOF
