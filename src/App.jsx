@@ -40,8 +40,8 @@ export default function App() {
           <h2 className="section-title">El Mapa de 1580</h2>
           <div className="section-rule" />
           <p className="section-desc">
-            Sobrepone la pintura indígena sobre la geografía contemporánea.
-            Ajusta la opacidad para revelar el paisaje bajo la mirada del tlacuilo.
+            Sobrepone la pintura sobre la geografía contemporánea.
+            Ajusta la opacidad para revelar el paisaje bajo la mirada del pasado.
           </p>
         </div>
 
