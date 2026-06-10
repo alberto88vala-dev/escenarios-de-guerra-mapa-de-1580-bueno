@@ -194,9 +194,9 @@ export const mapMetadata = {
   imageOverlayUrl: '/mapa_1580.jpg',
 
   // ── CAPA 2: Versión redibujada ─────────────────────────────────────
-  // Coloca tu imagen en /public/mapa_redibujado.jpg
+  // Coloca tu imagen en /public/mapa-Marcelo.jpg
   // Si aún no la tienes, deja este valor y el botón no causará errores
-  imageOverlayUrl2: '/mapa_redibujado.jpg',
+  imageOverlayUrl2: '/mapa-Marcelo.jpg',
 
   // ── Bounding box general (calculado desde imageCorners) ───────────
   imageBounds: [
