@@ -197,7 +197,7 @@ function HistoricalImageLayer({ opacity, activeLayer }) {
 // ── Créditos por capa ────────────────────────────────────────────────
 const CREDITS = {
   original: {
-    autor:  "Tlacuilo anónimo (manufactura indígena)",
+    autor:  "Anónimo",
     fuente: "Archivo General de Indias (AGI), Sevilla — MP-MEXICO, 560",
   },
   redibujado: {
