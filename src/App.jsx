@@ -24,7 +24,7 @@ export default function App() {
           </h1>
           <div className="hero__rule" />
           <p className="hero__subtitle">
-             La vision del Cartografo. Un análisis geográfico e histórico del mapa
+             La visión del Cartógrafo. Un análisis geográfico e histórico del mapa
             de San Miguel y San Felipe de los Chichimecas de 1580, en el contexto de la Guerra Chichimeca
           </p>
           <div className="hero__rule" />
