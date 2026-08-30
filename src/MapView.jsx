@@ -206,13 +206,25 @@ const CREDITS = {
   },
 };
 
+function FlyToTarget({ target }) {
+  const map = useMap();
+  useEffect(() => {
+    if (target) {
+      map.flyTo(target, 11, { duration: 1.2 });
+    }
+  }, [map, target]);
+  return null;
+}
+
 // ── Componente principal ─────────────────────────────────────────────
-export default function MapView({ onSelectPoint, isFullscreen, onToggleFullscreen, onOpenGlosario }) {
+export default function MapView({ onSelectPoint, isFullscreen, onToggleFullscreen, onOpenGlosario, onOpenCita }) {
   const [opacity,          setOpacity         ] = useState(70);
   const [activeLayer,      setActiveLayer     ] = useState("original");
   const [activeCategories, setActiveCategories] = useState(
     new Set([1, 2, 3, 4, 5, 6, 7])
   );
+  const [searchQuery,      setSearchQuery     ] = useState("");
+  const [flyTarget,        setFlyTarget       ] = useState(null);
 
   const toggleCat = useCallback((id) => {
     setActiveCategories(prev => {
@@ -221,6 +233,17 @@ export default function MapView({ onSelectPoint, isFullscreen, onToggleFullscree
       return next;
     });
   }, []);
+
+  const searchResults = mapPoints.filter((p) => {
+    if (!searchQuery.trim()) return false;
+    const q = searchQuery.toLowerCase();
+    return (
+      p.name?.toLowerCase().includes(q) ||
+      p.shortDescription?.toLowerCase().includes(q) ||
+      p.historicalDesc?.toLowerCase().includes(q) ||
+      p.paleographicAnalysis?.toLowerCase().includes(q)
+    );
+  });
 
   const visiblePoints = mapPoints.filter(
     p => !p.iconographyOnly && p.coords && activeCategories.has(p.categoryId)
@@ -233,6 +256,46 @@ export default function MapView({ onSelectPoint, isFullscreen, onToggleFullscree
 
       {/* ── Barra de controles ── */}
       <div className="map-controls-bar">
+        
+        {/* ── Buscador interactivo ── */}
+        <div className="search-input-wrap">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" style={{ color:"var(--sienna)" }}>
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+          <input
+            type="text"
+            className="search-input"
+            placeholder="Buscar asentamiento..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            aria-label="Buscar asentamiento o hito histórico"
+          />
+          {searchQuery && (
+            <button className="search-clear-btn" onClick={() => setSearchQuery("")}>✕</button>
+          )}
+
+          {searchResults.length > 0 && searchQuery.trim() !== "" && (
+            <div className="search-dropdown">
+              {searchResults.map((point) => (
+                <div
+                  key={point.id}
+                  className="search-item"
+                  onClick={() => {
+                    if (point.coords) setFlyTarget(point.coords);
+                    onSelectPoint && onSelectPoint(point);
+                    setSearchQuery("");
+                  }}
+                >
+                  <span className="search-item__name">{point.name}</span>
+                  <span className="search-item__cat">{CAT_LABELS[point.categoryId]}</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div className="bar-divider" />
+
         <span className="controls-label">Opacidad:</span>
         <div className="opacity-control">
           <span style={{ fontSize:".75rem", color:"var(--ink-light)" }}>0%</span>
@@ -318,7 +381,34 @@ export default function MapView({ onSelectPoint, isFullscreen, onToggleFullscree
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>
           </svg>
-          <span>Glosario de Símbolos</span>
+          <span>Glosario</span>
+        </button>
+
+        {/* ── Botón Cómo Citar ── */}
+        <button
+          onClick={onOpenCita}
+          className="btn-glosario-trigger"
+          title="Ver Cita Académica Formal (UNAM / Chicago & APA)"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: ".35rem",
+            padding: ".28rem .85rem",
+            fontFamily: "var(--font-body)",
+            fontSize: ".76rem",
+            letterSpacing: ".05em",
+            border: "1px solid rgba(139,58,15,.4)",
+            background: "transparent",
+            color: "var(--sienna)",
+            cursor: "pointer",
+            borderRadius: "2px",
+            transition: "all .2s ease",
+          }}
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+          <span>Cómo Citar</span>
         </button>
 
         {/* ── Botón Pantalla Completa ── */}
@@ -366,6 +456,8 @@ export default function MapView({ onSelectPoint, isFullscreen, onToggleFullscree
             attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
             maxZoom={18}
           />
+
+          <FlyToTarget target={flyTarget} />
 
           <HistoricalImageLayer opacity={opacity} activeLayer={activeLayer} />
 

@@ -9,11 +9,13 @@ import Sidebar       from "./Sidebar";
 import Gallery       from "./Gallery";
 import Comments      from "./Comments";
 import GlosarioModal from "./GlosarioModal";
+import CitaModal     from "./CitaModal";
 
 export default function App() {
   const [selectedPoint,  setSelectedPoint ] = useState(null);
   const [isFullscreen,   setIsFullscreen  ] = useState(false);
   const [isGlosarioOpen, setIsGlosarioOpen] = useState(false);
+  const [isCitaOpen,     setIsCitaOpen    ] = useState(false);
   const mapLayoutRef = useRef(null);
 
   const toggleFullscreen = () => {
@@ -96,6 +98,7 @@ export default function App() {
               isFullscreen={isFullscreen}
               onToggleFullscreen={toggleFullscreen}
               onOpenGlosario={() => setIsGlosarioOpen(true)}
+              onOpenCita={() => setIsCitaOpen(true)}
             />
           </div>
           <Sidebar
@@ -111,10 +114,14 @@ export default function App() {
       {/* ══ COMENTARIOS ══ */}
       <Comments />
 
-      {/* ══ MODAL GLOSARIO ══ */}
+      {/* ══ MODALES ══ */}
       <GlosarioModal
         isOpen={isGlosarioOpen}
         onClose={() => setIsGlosarioOpen(false)}
+      />
+      <CitaModal
+        isOpen={isCitaOpen}
+        onClose={() => setIsCitaOpen(false)}
       />
 
       {/* ══ FOOTER ══ */}
