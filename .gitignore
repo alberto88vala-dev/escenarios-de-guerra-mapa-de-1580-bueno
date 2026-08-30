@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Archivos pesados originales / de optimización
+public/mapa_1580.jpg
+public/mapa_1580_opt.jpg
+optimize.cjs

@@ -182,12 +182,10 @@ export const mapMetadata = {
   language:  'Sin texto escrito (pictórico)',
 
   // ── CAPA 1: Mapa original de 1580 ─────────────────────────────────
-  imageOverlayUrl: '/mapa_1580.jpg',
+  imageOverlayUrl: '/mapa_1580.webp',
 
   // ── CAPA 2: Versión redibujada ─────────────────────────────────────
-  // Coloca tu imagen en /public/marcelo.JPG
-  // Si aún no la tienes, deja este valor y el botón no causará errores
-  imageOverlayUrl2: '/marcelo.JPG',
+  imageOverlayUrl2: '/marcelo.webp',
 
   // ── Bounding box general (calculado desde imageCorners) ───────────
   imageBounds: [
