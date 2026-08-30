@@ -820,4 +820,191 @@ body::before {
 @media (max-width: 600px) {
   .gallery-grid { grid-template-columns: 1fr; }
   .map-controls-bar { gap: .65rem; }
+  .glosario-grid { grid-template-columns: 1fr; }
 }
+
+/* ─── MODAL GLOSARIO ──────────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(20, 15, 10, 0.75);
+  backdrop-filter: blur(6px);
+  z-index: 100000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  animation: fadeUp 0.25s ease;
+}
+
+.modal-content {
+  background: var(--parchment);
+  border: 1px solid var(--sienna);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+  max-width: 900px;
+  width: 100%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.modal-header {
+  padding: 1.2rem 1.8rem;
+  background: var(--parchment-dark);
+  border-bottom: 1px solid rgba(139,58,15,0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.modal-eyebrow {
+  font-family: var(--font-body);
+  font-size: .72rem;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--sienna);
+  font-weight: 600;
+}
+
+.modal-title {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--ink);
+  margin-top: .2rem;
+}
+
+.modal-close-btn {
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  color: var(--ink-light);
+  cursor: pointer;
+  padding: .2rem .5rem;
+  transition: color .2s;
+}
+.modal-close-btn:hover {
+  color: var(--sienna);
+}
+
+.modal-body {
+  padding: 1.5rem 1.8rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.modal-intro {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-size: .95rem;
+  color: var(--ink-light);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px dashed rgba(139,58,15,0.2);
+}
+
+.glosario-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 1.25rem;
+}
+
+.glosario-card {
+  background: #fbf7ee;
+  border: 1px solid rgba(139,58,15,0.18);
+  padding: 1.1rem 1.2rem;
+  border-radius: 3px;
+  transition: all .2s ease;
+}
+
+.glosario-card:hover {
+  border-color: var(--sienna);
+  box-shadow: 0 4px 14px rgba(139,58,15,0.08);
+  transform: translateY(-2px);
+}
+
+.glosario-card__header {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  margin-bottom: .5rem;
+}
+
+.glosario-card__icon {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.glosario-card__title {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--ink);
+  font-weight: 600;
+  margin: 0;
+}
+
+.glosario-card__subtitle {
+  font-family: var(--font-body);
+  font-size: .73rem;
+  color: var(--ink-light);
+}
+
+.glosario-card__badge {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: .65rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  background: rgba(139,58,15,0.08);
+  color: var(--sienna);
+  padding: .15rem .5rem;
+  border-radius: 2px;
+  margin-bottom: .6rem;
+  font-weight: 600;
+}
+
+.glosario-card__desc {
+  font-family: var(--font-body);
+  font-size: .82rem;
+  color: var(--ink);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.modal-footer {
+  padding: 1rem 1.8rem;
+  background: var(--parchment-dark);
+  border-top: 1px solid rgba(139,58,15,0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.modal-footer-note {
+  font-family: var(--font-body);
+  font-size: .74rem;
+  color: var(--ink-light);
+}
+
+.btn-primary {
+  background: var(--sienna);
+  color: #fff;
+  border: 1px solid var(--sienna);
+  padding: .4rem 1.2rem;
+  font-family: var(--font-body);
+  font-size: .78rem;
+  letter-spacing: .06em;
+  cursor: pointer;
+  transition: all .2s ease;
+}
+.btn-primary:hover {
+  background: #6e2e0c;
+  border-color: #6e2e0c;
+}

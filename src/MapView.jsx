@@ -207,7 +207,7 @@ const CREDITS = {
 };
 
 // ── Componente principal ─────────────────────────────────────────────
-export default function MapView({ onSelectPoint, isFullscreen, onToggleFullscreen }) {
+export default function MapView({ onSelectPoint, isFullscreen, onToggleFullscreen, onOpenGlosario }) {
   const [opacity,          setOpacity         ] = useState(70);
   const [activeLayer,      setActiveLayer     ] = useState("original");
   const [activeCategories, setActiveCategories] = useState(
@@ -293,6 +293,33 @@ export default function MapView({ onSelectPoint, isFullscreen, onToggleFullscree
         </div>
 
         <div className="bar-divider" />
+
+        {/* ── Botón Glosario ── */}
+        <button
+          onClick={onOpenGlosario}
+          className="btn-glosario-trigger"
+          title="Ver Glosario de Gramática Visual y Codicología del Tlacuilo"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: ".35rem",
+            padding: ".28rem .85rem",
+            fontFamily: "var(--font-body)",
+            fontSize: ".76rem",
+            letterSpacing: ".05em",
+            border: "1px solid rgba(139,58,15,.4)",
+            background: "transparent",
+            color: "var(--sienna)",
+            cursor: "pointer",
+            borderRadius: "2px",
+            transition: "all .2s ease",
+          }}
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>
+          </svg>
+          <span>Glosario de Símbolos</span>
+        </button>
 
         {/* ── Botón Pantalla Completa ── */}
         <button

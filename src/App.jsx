@@ -4,14 +4,16 @@
 
 import { useState, useRef, useEffect } from "react";
 import "./index.css";
-import MapView  from "./MapView";
-import Sidebar  from "./Sidebar";
-import Gallery  from "./Gallery";
-import Comments from "./Comments";
+import MapView       from "./MapView";
+import Sidebar       from "./Sidebar";
+import Gallery       from "./Gallery";
+import Comments      from "./Comments";
+import GlosarioModal from "./GlosarioModal";
 
 export default function App() {
-  const [selectedPoint, setSelectedPoint] = useState(null);
-  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [selectedPoint,  setSelectedPoint ] = useState(null);
+  const [isFullscreen,   setIsFullscreen  ] = useState(false);
+  const [isGlosarioOpen, setIsGlosarioOpen] = useState(false);
   const mapLayoutRef = useRef(null);
 
   const toggleFullscreen = () => {
@@ -93,6 +95,7 @@ export default function App() {
               onSelectPoint={setSelectedPoint}
               isFullscreen={isFullscreen}
               onToggleFullscreen={toggleFullscreen}
+              onOpenGlosario={() => setIsGlosarioOpen(true)}
             />
           </div>
           <Sidebar
@@ -107,6 +110,12 @@ export default function App() {
 
       {/* ══ COMENTARIOS ══ */}
       <Comments />
+
+      {/* ══ MODAL GLOSARIO ══ */}
+      <GlosarioModal
+        isOpen={isGlosarioOpen}
+        onClose={() => setIsGlosarioOpen(false)}
+      />
 
       {/* ══ FOOTER ══ */}
       <footer className="footer">
