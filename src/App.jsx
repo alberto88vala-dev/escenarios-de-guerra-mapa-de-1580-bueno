@@ -2,7 +2,7 @@
  * App.jsx — Escenarios de Guerra
  */
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import "./index.css";
 import MapView  from "./MapView";
 import Sidebar  from "./Sidebar";
@@ -11,6 +11,41 @@ import Comments from "./Comments";
 
 export default function App() {
   const [selectedPoint, setSelectedPoint] = useState(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const mapLayoutRef = useRef(null);
+
+  const toggleFullscreen = () => {
+    if (!mapLayoutRef.current) return;
+    if (!document.fullscreenElement && !isFullscreen) {
+      if (mapLayoutRef.current.requestFullscreen) {
+        mapLayoutRef.current.requestFullscreen().catch(() => {
+          setIsFullscreen(prev => !prev);
+        });
+      } else {
+        setIsFullscreen(prev => !prev);
+      }
+    } else {
+      if (document.exitFullscreen && document.fullscreenElement) {
+        document.exitFullscreen().catch(() => {
+          setIsFullscreen(false);
+        });
+      } else {
+        setIsFullscreen(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    const handleFsChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener("fullscreenchange", handleFsChange);
+    document.addEventListener("webkitfullscreenchange", handleFsChange);
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFsChange);
+      document.removeEventListener("webkitfullscreenchange", handleFsChange);
+    };
+  }, []);
 
   return (
     <>
@@ -47,12 +82,18 @@ export default function App() {
 
         {/*
           map-layout: display flex, height 640px.
-          MapView ahora maneja internamente su barra de controles + el mapa,
-          así que map-container solo necesita dar el espacio disponible.
+          MapView maneja la barra de controles + el mapa y soporte Fullscreen.
         */}
-        <div className="map-layout">
+        <div
+          ref={mapLayoutRef}
+          className={`map-layout ${isFullscreen ? "map-layout--fullscreen" : ""}`}
+        >
           <div className="map-container" style={{ display: "flex", flexDirection: "column" }}>
-            <MapView onSelectPoint={setSelectedPoint} />
+            <MapView
+              onSelectPoint={setSelectedPoint}
+              isFullscreen={isFullscreen}
+              onToggleFullscreen={toggleFullscreen}
+            />
           </div>
           <Sidebar
             point={selectedPoint}
