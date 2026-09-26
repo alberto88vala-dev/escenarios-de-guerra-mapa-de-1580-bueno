@@ -79,6 +79,28 @@ body::before {
   flex-direction: column;
   align-items: center;
 }
+.hero__institution-badge {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-size: .75rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: rgba(196,136,44,0.08);
+  border: 1px solid rgba(196,136,44,0.25);
+  padding: .4rem 1.1rem;
+  border-radius: 2px;
+  margin-bottom: 1.5rem;
+  animation: fadeUp .9s .05s ease both;
+}
+.hero__institution-badge .bullet {
+  color: rgba(245,234,208,0.3);
+}
+
 .hero__ornament-cross {
   color: var(--gold);
   font-size: 18px;
@@ -116,12 +138,43 @@ body::before {
 }
 .hero__subtitle {
   font-family: var(--font-accent);
-  font-size: clamp(1rem, 2.2vw, 1.4rem);
+  font-size: clamp(1rem, 2vw, 1.25rem);
   font-style: italic;
   font-weight: 300;
-  color: rgba(245,234,208,.62);
-  max-width: 540px;
+  color: rgba(245,234,208,.75);
+  max-width: 680px;
+  line-height: 1.6;
   animation: fadeUp .9s .5s ease both;
+}
+.hero__subtitle em {
+  font-style: normal;
+  color: var(--parchment);
+}
+.hero__credits-box {
+  background: rgba(20, 15, 10, 0.45);
+  border: 1px solid rgba(196,136,44,0.22);
+  padding: .85rem 1.4rem;
+  max-width: 620px;
+  margin: 1.2rem auto 0;
+  border-radius: 3px;
+  animation: fadeUp .9s .6s ease both;
+}
+.hero__credit-line {
+  font-family: var(--font-body);
+  font-size: .84rem;
+  color: var(--parchment);
+  letter-spacing: .03em;
+}
+.hero__credit-line strong {
+  color: var(--gold);
+}
+.hero__credit-sub {
+  font-family: var(--font-body);
+  font-size: .72rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(245,234,208,0.48);
+  margin-top: .3rem;
 }
 .hero__meta {
   font-size: .75rem;
@@ -741,18 +794,57 @@ body::before {
 /* ─── FOOTER ──────────────────────────────────────────────────────── */
 .footer {
   background: var(--ink);
-  padding: 3rem 2rem;
+  padding: 4rem 2rem 3rem;
   text-align: center;
-  border-top: 1px solid rgba(196,136,44,.1);
+  border-top: 1px solid rgba(196,136,44,.2);
 }
 .footer p {
   font-family: var(--font-body);
   font-size: .82rem;
-  letter-spacing: .08em;
-  color: rgba(245,234,208,.28);
-  line-height: 2;
+  letter-spacing: .06em;
+  color: rgba(245,234,208,.45);
+  line-height: 1.8;
 }
-.footer strong { color: rgba(245,234,208,.52); font-weight: 400; }
+.footer strong { color: var(--gold); font-weight: 600; }
+.footer__institutional {
+  max-width: 800px;
+  margin: 0 auto;
+}
+.footer__title-formal {
+  font-family: var(--font-accent);
+  font-size: .92rem;
+  color: rgba(245,234,208,.75);
+  margin: .8rem 0;
+  line-height: 1.6;
+}
+.footer__divider {
+  width: 140px;
+  height: 1px;
+  background: rgba(196,136,44,0.3);
+  margin: 2rem auto;
+}
+.footer__meta-links {
+  max-width: 700px;
+  margin: 0 auto;
+}
+.footer__cite-btn {
+  display: inline-block;
+  margin-top: 1rem;
+  background: rgba(196,136,44,0.12);
+  border: 1px solid rgba(196,136,44,0.35);
+  color: var(--gold);
+  font-family: var(--font-body);
+  font-size: .78rem;
+  letter-spacing: .08em;
+  padding: .45rem 1.1rem;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all .2s ease;
+}
+.footer__cite-btn:hover {
+  background: var(--gold);
+  color: var(--midnight);
+}
  
 /* ─── LEAFLET OVERRIDES ───────────────────────────────────────────── */
 .leaflet-popup-content-wrapper {

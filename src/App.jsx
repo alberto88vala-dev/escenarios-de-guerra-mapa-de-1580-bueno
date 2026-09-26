@@ -56,31 +56,53 @@ export default function App() {
       {/* ══ HERO ══ */}
       <section id="hero" className="hero">
         <div className="hero__content">
+          <div className="hero__institution-badge">
+            <span>Universidad Nacional Autónoma de México</span>
+            <span className="bullet">·</span>
+            <span>Facultad de Filosofía y Letras</span>
+            <span className="bullet">·</span>
+            <span>Colegio de Historia</span>
+          </div>
+
           <span className="hero__ornament-cross">✦ ✦ ✦</span>
+          
           <h1 className="hero__title">
-            <span className="hero__eyebrow">San Miguel y San Felipe · 1580</span>
+            <span className="hero__eyebrow">San Miguel, San Felipe y Chamacuero · ca. 1579–1580</span>
             Escenarios<br />de Guerra
           </h1>
+          
           <div className="hero__rule" />
+          
           <p className="hero__subtitle">
-             La visión del Cartógrafo. Un análisis geográfico e histórico del mapa
-            de San Miguel y San Felipe de los Chichimecas de 1580, en el contexto de la Guerra Chichimeca
+            Análisis histórico-geográfico en la propuesta pedagógica de visualización WebGIS del 
+            <em> "Mapa de las villas de San Miguel y San Felipe de los Chichimecas y el pueblo de San Francisco Chamacuero"</em>: 
+            una plataforma interactiva para la interpretación del paisaje fronterizo novohispano.
           </p>
+          
           <div className="hero__rule" />
-          <a href="#map-section" className="btn-explore">Explorar el Mapa</a>
-          <p className="hero__meta">Tesina de Licenciatura · Análisis Cartográfico · UNAM · 2026</p>
+          
+          <div className="hero__credits-box">
+            <p className="hero__credit-line">
+              <strong>Tesista:</strong> Alberto Becerra Ortiz &nbsp;·&nbsp; <strong>Asesor:</strong> Dr. Tomás Francisco Marcelo Ramírez Ruiz
+            </p>
+            <p className="hero__credit-sub">
+              Modalidad V: Propuesta Pedagógica de Visualización WebGIS &nbsp;·&nbsp; UNAM 2026
+            </p>
+          </div>
+
+          <a href="#map-section" className="btn-explore">Explorar la Cartografía WebGIS</a>
         </div>
       </section>
 
       {/* ══ SECCIÓN DEL MAPA ══ */}
       <section id="map-section" style={{ background: "var(--smoke)", paddingBottom: "5rem" }}>
         <div className="section-header">
-          <p className="section-eyebrow">Cartografía Interactiva</p>
-          <h2 className="section-title">El Mapa de 1580</h2>
+          <p className="section-eyebrow">Plataforma WebGIS de Interpretación del Paisaje</p>
+          <h2 className="section-title">El Mapa de 1580 y el Camino Real</h2>
           <div className="section-rule" />
           <p className="section-desc">
-            Sobrepone la pintura sobre la geografía contemporánea.
-            Ajusta la opacidad para revelar el paisaje bajo la mirada del pasado.
+            Superpone la pintura del siglo XVI sobre la geografía contemporánea. 
+            Ajusta la opacidad para contrastar la visión del tlacuilo con el territorio actual.
           </p>
         </div>
 
@@ -124,14 +146,30 @@ export default function App() {
         onClose={() => setIsCitaOpen(false)}
       />
 
-      {/* ══ FOOTER ══ */}
+      {/* ══ FOOTER INSTITUCIONAL ══ */}
       <footer className="footer">
-        <p><strong>Escenarios de Guerra: La Visión del Tlacuilo</strong></p>
-        <p>Mapa de «San Miguel y San Felipe de los Chichimecas» · ca. 1579–1580</p>
-        <p>Tesina de Licenciatura · Historia · UNAM · 2026</p>
-        <p style={{ marginTop: "1rem", fontSize: ".75rem" }}>
-          Todas las imágenes históricas son reproducción de dominio público o con fines académicos.
-        </p>
+        <div className="footer__institutional">
+          <p><strong>UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO</strong></p>
+          <p>Facultad de Filosofía y Letras · Colegio de Historia</p>
+          <p className="footer__title-formal">
+            <em>Análisis histórico-geográfico en la propuesta pedagógica de visualización WebGIS del "Mapa de las villas de San Miguel y San Felipe de los Chichimecas y el pueblo de San Francisco Chamacuero (ca. 1579-1580)"</em>
+          </p>
+          <p><strong>Tesista:</strong> Alberto Becerra Ortiz (No. Cta. 312182667)</p>
+          <p><strong>Asesor de Tesina:</strong> Dr. Tomás Francisco Marcelo Ramírez Ruiz (Profesor Titular "B" Definitivo, FFyL)</p>
+          <p>Modalidad V: Diseño fundamentado de una propuesta de intervención o aplicación en ámbitos pedagógicos</p>
+        </div>
+
+        <div className="footer__divider" />
+
+        <div className="footer__meta-links">
+          <p>Fuente cartográfica original resguardada en la <strong>Real Academia de la Historia (Madrid)</strong>, Signatura: C-028-009 / AGI Sevilla (MP-MEXICO, 560).</p>
+          <button className="footer__cite-btn" onClick={() => setIsCitaOpen(true)}>
+            📖 Consultar Ficha de Cita Académica (Chicago / APA)
+          </button>
+          <p style={{ marginTop: "1rem", fontSize: ".75rem", opacity: 0.6 }}>
+            Desarrollado bajo principios de Código Abierto y Humanidades Digitales · UNAM 2026.
+          </p>
+        </div>
       </footer>
     </>
   );
