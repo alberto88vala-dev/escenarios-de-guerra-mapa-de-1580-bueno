@@ -134,7 +134,33 @@ export const mapPoints = [
   // ══════════════════════════════════════════════════════════════════
   // 5. INFRAESTRUCTURA DEFENSIVA
   // ══════════════════════════════════════════════════════════════════
-  { id:28, categoryId:5, name:'Fuerte de los Ojuelos',   coords:[21.8681,-101.5903], iconographyOnly:false, shortDescription:'Presidio estratégico en el camino a Zacatecas; construido ca. 1569 para proteger el Camino Real.', historicalDesc:'', paleographicAnalysis:'', visualGrammar:'', primarySources:[], bibliography:[], imageUrl:null, agn:null, agi:null, timelinePhase:'', enlaces:[] },
+  {
+    id:28, categoryId:5,
+    name:'Fuerte de los Ojuelos (Ojuelos de Jalisco)',
+    coords:[21.8690, -101.5900],
+    iconographyOnly:false,
+    shortDescription:'Presidio estratégico del Camino de la Plata, fundado para resguardar las caravanas de carretas, vigilar las incursiones guachichiles desde el Tunal Grande y controlar los escasos recursos acuíferos de la llanura.',
+    historicalDesc:'El presidio de Ojuelos fue fundado en 1569 por el capitán Pedro Carrillo Dávila (justicia mayor de la Villa de San Felipe) bajo provisión del doctor Jerónimo de Orozco (Real Audiencia de Guadalajara) y el virrey Martín Enríquez de Almansa. Ubicado en los Llanos de Ojuelos —planicie semiárida caracterizada por manantiales u "ojos de agua"—, fue concebido como un cerrojo militar para cerrar el acceso al Camino Real de Tierra Adentro a los guachichiles que salían del Tunal Grande.\n\nHacia 1582 contaba con una dotación permanente de seis soldados de escolta mantenidos por la Real Audiencia. Monopolizó el dominio visual de los escasos acuíferos y el tránsito de las conductas de plata. A diferencia de la mayoría de fortines hechos de materiales perecederos que desaparecieron tras 1600, Ojuelos subsistió al ser reconstruido en piedra y bóvedas de mampostería, convirtiéndose en sede de hacienda y en Palacio Municipal declarado Patrimonio de la Humanidad por la UNESCO en 2010.',
+    paleographicAnalysis:'En la pintura de la Relación Geográfica de 1580, el Fuerte de los Ojuelos se localiza en el margen superior izquierdo sobre el Camino Real dibujado en color rojo. El tlacuilo lo representó mediante una estructura habitacional rectangular de fachada sencilla con cubierta de dos aguas. Junto a la fortificación trazó un círculo azulado que representa una laguna u "ojo de agua". En las colinas contiguas plasmó a ocho guerreros chichimecas desnudos provistos de arco, flechas y carcajes en actitud de acecho. Al pie de la estructura se conserva la glosa: "fuerte de los ojuelos".',
+    visualGrammar:'',
+    primarySources:[
+      'AGI, Sevilla, Ramo Patronato, legajo 181, ramo 4 — Información de Pedro Carrillo Dávila sobre escoltas y guerra chichimeca (1582)',
+      'Relación de la villa y monasterio de San Felipe (1571) — Mandamiento del virrey Martín Enríquez de Almansa (1569)',
+      'AHMP, Milicias y Guerra, caja 2, exp. 27 — Provisión de la visita al Real Presidio sobre escoltas y cordones presidiales (1724)',
+      'AGI, Contaduría 925 — Cuentas de la Real Hacienda de Nueva España sobre pago de soldados de presidios (1570-1585)',
+    ],
+    bibliography:[
+      'Powell, Philip Wayne. Génesis del presidio como institución fronteriza, 1569-1600. UNAM, IIH, 1987',
+      'Arnal Simón, Luis. El presidio en México en el siglo XVI. Facultad de Arquitectura, UNAM, 1998',
+      'Puig Carrasco, Alberto y Díaz-Sánchez, Carlos. "Despoblados y fuertes: el presidio de Ojuelos...". En Arqueología, 2023',
+      'Naylor, Thomas H. y Polzer, Charles W. The Presidio and Militia on the Northern Frontier of New Spain 1570-1700. 1986',
+    ],
+    imageUrl:null,
+    agn:'Relación de San Felipe (1571)',
+    agi:'AGI, Patronato 181, r. 4 (1582) · Contaduría 925',
+    timelinePhase:'1569 (Fundación) · 1580 (Relación Geográfica) · 2010 (UNESCO)',
+    enlaces:[],
+  },
   { id:29, categoryId:5, name:'Presidio del Portezuelo', coords:[21.6481,-101.4828], iconographyOnly:false, shortDescription:'Fortín en paso de montaña; nodo de control militar de la frontera chichimeca.', historicalDesc:'', paleographicAnalysis:'', visualGrammar:'', primarySources:[], bibliography:[], imageUrl:null, agn:null, agi:null, timelinePhase:'', enlaces:[] },
   { id:30, categoryId:5, name:'Presidio de Las Bocas',   coords:[21.9333,-102.1000], iconographyOnly:false, shortDescription:'Presidio en el límite norte del territorio cartografiado; defensa del acceso a tierras chichimecas.', historicalDesc:'', paleographicAnalysis:'', visualGrammar:'', primarySources:[], bibliography:[], imageUrl:null, agn:null, agi:null, timelinePhase:'', enlaces:[] },
 
