@@ -7,7 +7,7 @@
  */
 
 import { useState, useCallback, useEffect, useRef } from "react";
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, Polyline, CircleMarker, useMap, useMapEvents } from "react-leaflet";
 import L from "leaflet";
 import { mapPoints, mapMetadata } from "./mapData";
 
@@ -216,6 +216,28 @@ function FlyToTarget({ target }) {
   return null;
 }
 
+function MeasureHandler({ isMeasuring, onAddPoint }) {
+  useMapEvents({
+    click(e) {
+      if (isMeasuring) {
+        onAddPoint([e.latlng.lat, e.latlng.lng]);
+      }
+    },
+  });
+  return null;
+}
+
+function computePathMeters(pts) {
+  if (!pts || pts.length < 2) return 0;
+  let total = 0;
+  for (let i = 0; i < pts.length - 1; i++) {
+    const p1 = L.latLng(pts[i][0], pts[i][1]);
+    const p2 = L.latLng(pts[i + 1][0], pts[i + 1][1]);
+    total += p1.distanceTo(p2);
+  }
+  return total;
+}
+
 // ── Componente principal ─────────────────────────────────────────────
 export default function MapView({ onSelectPoint, isFullscreen, onToggleFullscreen, onOpenGlosario, onOpenCita }) {
   const [opacity,          setOpacity         ] = useState(70);
@@ -225,6 +247,8 @@ export default function MapView({ onSelectPoint, isFullscreen, onToggleFullscree
   );
   const [searchQuery,      setSearchQuery     ] = useState("");
   const [flyTarget,        setFlyTarget       ] = useState(null);
+  const [isMeasuring,      setIsMeasuring     ] = useState(false);
+  const [measurePoints,    setMeasurePoints   ] = useState([]);
 
   const toggleCat = useCallback((id) => {
     setActiveCategories(prev => {
@@ -357,6 +381,37 @@ export default function MapView({ onSelectPoint, isFullscreen, onToggleFullscree
 
         <div className="bar-divider" />
 
+        {/* ── Botón Medir Distancias ── */}
+        <button
+          onClick={() => {
+            setIsMeasuring(prev => !prev);
+            if (!isMeasuring) setMeasurePoints([]);
+          }}
+          className="btn-glosario-trigger"
+          title="Medidor de Distancias Geoespaciales (SIG Web) en kilómetros y leguas novohispanas"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: ".35rem",
+            padding: ".28rem .85rem",
+            fontFamily: "var(--font-body)",
+            fontSize: ".76rem",
+            letterSpacing: ".05em",
+            border: "1px solid",
+            borderColor: isMeasuring ? "var(--sienna)" : "rgba(139,58,15,.4)",
+            background: isMeasuring ? "var(--sienna)" : "transparent",
+            color: isMeasuring ? "#ffffff" : "var(--sienna)",
+            cursor: "pointer",
+            borderRadius: "2px",
+            transition: "all .2s ease",
+          }}
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M2 12h20M6 8v8M10 10v4M14 8v8M18 10v4"/>
+          </svg>
+          <span>{isMeasuring ? "Medidor Activo" : "Medir Distancias (SIG)"}</span>
+        </button>
+
         {/* ── Botón Glosario ── */}
         <button
           onClick={onOpenGlosario}
@@ -437,16 +492,64 @@ export default function MapView({ onSelectPoint, isFullscreen, onToggleFullscree
       </div>
 
       {/* ── Mapa ── */}
-      <div style={{ flex:1, minHeight:0 }}>
+      <div style={{ flex:1, minHeight:0, position:"relative" }}>
+        
+        {/* Tarjeta flotante de Medición SIG */}
+        {(isMeasuring || measurePoints.length > 0) && (
+          <div className="measure-floating-card">
+            <div className="measure-card__title">
+              📏 Medidor Geoespacial (SIG Web)
+            </div>
+            {isMeasuring && measurePoints.length === 0 && (
+              <p className="measure-card__subval">
+                Haz clic en el mapa para marcar puntos de trayecto del Camino Real.
+              </p>
+            )}
+            {measurePoints.length > 0 && (
+              <>
+                <div className="measure-card__val">
+                  {(computePathMeters(measurePoints) / 1000).toFixed(2)} km
+                </div>
+                <div className="measure-card__subval">
+                  ≈ {((computePathMeters(measurePoints) / 1000) / 4.19).toFixed(2)} leguas novohispanas (1 legua ≈ 4.19 km)
+                </div>
+                <p style={{ fontSize:".72rem", color:"var(--ink-light)", marginTop:".2rem" }}>
+                  {measurePoints.length} vértice(s) marcado(s)
+                </p>
+              </>
+            )}
+            <div className="measure-card__actions">
+              {measurePoints.length > 0 && (
+                <>
+                  <button
+                    className="btn-measure-action"
+                    onClick={() => setMeasurePoints(prev => prev.slice(0, -1))}
+                  >
+                    Deshacer
+                  </button>
+                  <button
+                    className="btn-measure-action"
+                    onClick={() => setMeasurePoints([])}
+                  >
+                    Limpiar
+                  </button>
+                </>
+              )}
+              <button
+                className="btn-measure-action"
+                style={{ borderColor:"var(--sienna)", color:"var(--sienna)" }}
+                onClick={() => setIsMeasuring(false)}
+              >
+                Cerrar Medidor
+              </button>
+            </div>
+          </div>
+        )}
+
         <MapContainer
           center={mapMetadata.mapCenter}
           zoom={mapMetadata.defaultZoom}
           style={{ width:"100%", height:"100%" }}
-          // ─── CORRECCIÓN CLAVE ──────────────────────────────────
-          // zoomAnimation: true  → permite que Leaflet anime el zoom
-          //                        con CSS transform en el contenedor
-          // markerZoomAnimation: true → los marcadores siguen la anim.
-          // Ambas opciones evitan el "salto" que causaba el parpadeo
           zoomAnimation={true}
           markerZoomAnimation={true}
           id="map"
@@ -458,6 +561,18 @@ export default function MapView({ onSelectPoint, isFullscreen, onToggleFullscree
           />
 
           <FlyToTarget target={flyTarget} />
+
+          <MeasureHandler
+            isMeasuring={isMeasuring}
+            onAddPoint={(pt) => setMeasurePoints(prev => [...prev, pt])}
+          />
+
+          {measurePoints.length > 1 && (
+            <Polyline positions={measurePoints} color="#8b3a0f" dashArray="6, 8" weight={4} />
+          )}
+          {measurePoints.map((pt, i) => (
+            <CircleMarker key={i} center={pt} radius={5} fillColor="#8b3a0f" color="#ffffff" weight={2} fillOpacity={1} />
+          ))}
 
           <HistoricalImageLayer opacity={opacity} activeLayer={activeLayer} />
 

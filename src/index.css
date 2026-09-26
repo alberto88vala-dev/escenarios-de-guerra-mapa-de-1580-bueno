@@ -1233,4 +1233,62 @@ body::before {
 .btn-copy:hover {
   background: var(--sienna);
   color: #ffffff;
+}
+
+/* ─── TARJETA FLOTANTE DE MEDICIÓN GEOESPACIAL (SIG) ───────────────── */
+.measure-floating-card {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 1000;
+  background: var(--parchment);
+  border: 1px solid var(--sienna);
+  padding: .9rem 1.2rem;
+  border-radius: 4px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  font-family: var(--font-body);
+  min-width: 250px;
+  animation: fadeUp .2s ease;
+}
+.measure-card__title {
+  font-family: var(--font-display);
+  font-size: .92rem;
+  color: var(--sienna);
+  font-weight: 600;
+  margin-bottom: .3rem;
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+}
+.measure-card__val {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: .25rem 0;
+}
+.measure-card__subval {
+  font-size: .78rem;
+  color: var(--ink-light);
+  font-style: italic;
+}
+.measure-card__actions {
+  display: flex;
+  gap: .4rem;
+  margin-top: .75rem;
+  flex-wrap: wrap;
+}
+.btn-measure-action {
+  font-family: var(--font-body);
+  font-size: .72rem;
+  padding: .25rem .6rem;
+  border: 1px solid rgba(139,58,15,0.3);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all .2s;
+}
+.btn-measure-action:hover {
+  background: rgba(139,58,15,0.1);
+  border-color: var(--sienna);
 }
