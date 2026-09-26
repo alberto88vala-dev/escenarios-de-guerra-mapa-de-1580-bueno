@@ -127,7 +127,33 @@ export const mapPoints = [
   // ══════════════════════════════════════════════════════════════════
   // 2. ESCENARIOS Y ACTORES DE GUERRA
   // ══════════════════════════════════════════════════════════════════
-  { id:6,  categoryId:2, name:'Las Cabezas de los Frailes (Paso de Chamacuero)', coords:null, iconographyOnly:true, shortDescription:'Iconografía de cabezas decapitadas de frailes; representación del martirio en el paisaje fronterizo.', historicalDesc:'', paleographicAnalysis:'', visualGrammar:'', primarySources:[], bibliography:[], imageUrl:null, agn:null, agi:null, timelinePhase:'', enlaces:[] },
+  {
+    id:6, categoryId:2,
+    name:'Las Cabezas de los Frailes (Paso de Chamacuero)',
+    coords:[20.805, -100.758],
+    iconographyOnly:false,
+    shortDescription:'Paso montañoso estratégico del Camino Real donde en 1574 los chichimecas emboscaron a una caravana y decapitaron a los franciscanos Francisco Doncel y Pedro Burguense.',
+    historicalDesc:'El Puerto de Chamacuero constituía una garganta geográfica de obligado tránsito en el ramal del Camino Real de Tierra Adentro entre la cuenca del río Laja (Apaseo, Celaya, Chamacuero) y la villa de San Miguel el Grande. Su estrecho desfiladero, arroyo pedregoso y vegetación frondosa lo convertían en escenario idóneo para la emboscada rápida chichimeca.\n\nEn este paraje ocurrió en 1574 uno de los episodios bélicos y martiriales más emblemáticos de la contienda: los frailes franciscanos Francisco Doncel y Pedro Burguense viajaban custodiando imágenes sagradas (entre ellas el "Cristo de la Conquista") para las iglesias fronterizas. Una partida de chichimecas los emboscó, dispersó a la escolta y decapitó a ambos religiosos. Un jinete sobreviviente escapó a galope a San Miguel para dar la alarma, desencadenando represalias virreinales con la ejecución en la horca de los agresores.',
+    paleographicAnalysis:'En la sección inferior derecha del Mapa de 1580, sobre la traza en tinta roja del camino a San Miguel, el tlacuilo representó el asalto junto a la leyenda: "puerto de Chamacuero".\n\nLa escena integra cuatro elementos clave: 1) Dos cabezas decapitadas sangrantes con tonsura franciscana (frailes Doncel y Burguense); 2) Dos guerreros chichimecas desnudos en la ladera del peñón disparando sus arcos; 3) Un jinete hispano con lanza huyendo a galope hacia San Miguel; 4) Un patíbulo con un indio ahorcado a espaldas del cerro, simbolizando la represalia punitiva española.',
+    visualGrammar:'',
+    primarySources:[
+      'Fray Juan de Torquemada, Monarquía Indiana (1723), Tomo III, Lib. XXI, cap. IX, p. 625',
+      'Fray Alonso de la Rea, Relación de la provincia de San Pedro y San Pablo de Michoacán (1643), pp. 325-326',
+      'RAH, Signatura C-029-008 — Relación de Celaya por Pedro de Villegas (1580)',
+      'AGN, Ramo Tierras, vol. 1783, exp. 1, ff. 28r-29r — Códice Pedro Martín del Toro (ca. 1650-1703)',
+    ],
+    bibliography:[
+      'Puig Carrasco, Alberto. "Reconstrucción de la guerra chichimeca y sus efectos en el mapa...". Temas Americanistas, 2024',
+      'Ramírez Ruiz, Marcelo. "Paisajes y cartografía del Camino Real...". En Camino Real de Tierra Adentro por Guanajuato, 2022',
+      'Powell, Philip Wayne. La guerra chichimeca (1550-1600). FCE, 1977',
+      'Salinas Ramos, Miguel Santos. "Evangelizadores en el norte del obispado de Michoacán...". En Entre la solemnidad y el regocijo, 2020',
+    ],
+    imageUrl:null,
+    agn:'Ramo Tierras, vol. 1783, exp. 1',
+    agi:'RAH, C-029-008 (Relación de Celaya, 1580)',
+    timelinePhase:'1574 (Martirio de Fray Doncel y Fray Burguense) · 1580 (Relación Geográfica)',
+    enlaces:[],
+  },
   { id:7,  categoryId:2, name:'Guerreros Chichimecas (Desnudez y Arco)',         coords:null, iconographyOnly:true, shortDescription:'Figura del guerrero chichimeca caracterizado por desnudez ritual y arco; convención pictórica del tlacuilo.', historicalDesc:'', paleographicAnalysis:'', visualGrammar:'', primarySources:[], bibliography:[], imageUrl:null, agn:null, agi:null, timelinePhase:'', enlaces:[] },
   { id:8,  categoryId:2, name:'Guachichiles',  coords:null, iconographyOnly:true, shortDescription:'Grupo chichimeca más numeroso y belicoso; representación pictórica en el mapa.', historicalDesc:'', paleographicAnalysis:'', visualGrammar:'', primarySources:[], bibliography:[], imageUrl:null, agn:null, agi:null, timelinePhase:'', enlaces:[] },
   { id:9,  categoryId:2, name:'Zacatecos',     coords:null, iconographyOnly:true, shortDescription:'Grupo chichimeca del norte; representación pictórica en el mapa.', historicalDesc:'', paleographicAnalysis:'', visualGrammar:'', primarySources:[], bibliography:[], imageUrl:null, agn:null, agi:null, timelinePhase:'', enlaces:[] },
