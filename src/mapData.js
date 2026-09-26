@@ -176,7 +176,32 @@ export const mapPoints = [
   // ══════════════════════════════════════════════════════════════════
   // 3. COSMOVISIÓN
   // ══════════════════════════════════════════════════════════════════
-  { id:16, categoryId:3, name:'El Glifo del Altépetl',          coords:[20.8521,-100.9192], iconographyOnly:false, shortDescription:'Glifo mesoamericano de la ciudad/cerro-agua; marca identitaria del tlacuilo en el documento.', historicalDesc:'', paleographicAnalysis:'', visualGrammar:'', primarySources:[], bibliography:[], imageUrl:null, agn:null, agi:null, timelinePhase:'', enlaces:[] },
+  {
+    id:16, categoryId:3,
+    name:'El Glifo del Altépetl (Cañada de la Virgen)',
+    coords:[20.852, -100.923],
+    iconographyOnly:false,
+    shortDescription:'Pictograma mesoamericano de altépetl que señala el centro ceremonial sagrado de Cañada de la Virgen, integrando la cosmovisión indígena y la sacralidad del territorio en el mapa colonial.',
+    historicalDesc:'El yacimiento de Cañada de la Virgen es un complejo ceremonial tolteca-chichimeca y otomí (540-1050 d.C.) en la cuenca alta del río Laja, con siete pirámides alineadas astronómica y ritualmente. Pese a su abandono posclásico, la memoria social conservó la sacralidad del paraje durante la época colonial.\n\nSu inclusión en la pintura de 1580 demuestra que el tlacuilo indígena reconoció la relevancia simbólica del asentamiento ancestral junto al río de Santa Catalina. El glifo de altépetl ("agua-monte") diferenció este espacio sagrado prehispánico de las iglesias europeas (San Miguel, San Felipe, Chamacuero) y las chozas chichimecas del norte.',
+    paleographicAnalysis:'El glifo del altépetl es el elemento gráfico mesoamericano más puro del Mapa de 1580. Ubicado en la sección centro-oriental junto al río de Santa Catalina, presenta una elevación montañosa estilizada de silueta redondeada y base cóncava con aguadas ocres y rojizas ("pueblo o señorío").\n\nCarece por completo de glosa alfabética europea, lo que corrobora que se trata de un código visual primario introducido de forma autónoma por el artista nativo dentro del contexto del arte mestizo colonial.',
+    visualGrammar:'',
+    primarySources:[
+      'RAH, Madrid, C-028-009 — Mapa de las villas de San Miguel y San Felipe (ca. 1579-1580)',
+      'AGI, Sevilla, Indiferente General 1529 — Relación de descripciones y pinturas por Juan López de Velasco (1583)',
+      'AGN, México, Ramo Mercedes, vol. 16 y 18 — Mercedes de tierras sobre el arroyo de Santa Catalina (1591)',
+    ],
+    bibliography:[
+      'Puig Carrasco, Alberto. "La representación del paisaje indígena y castellano...". Univ. de Salamanca, 2018',
+      'Ramírez Ruiz, Marcelo. "Paisajes y cartografía del Camino Real...". En Camino Real de Tierra Adentro por Guanajuato, 2022',
+      'Navarro López, América. El uso de los recursos ambientales en la región de San Miguel y San Felipe... Tesis doctoral, 2022',
+      'Puig Carrasco, Alberto. "Análisis codicológico del Mapa de la Relación Geográfica...". BRF Servicios Editoriales, 2018',
+    ],
+    imageUrl:null,
+    agn:'Ramo Mercedes, vol. 16 y 18 (1591)',
+    agi:'RAH, C-028-009 (1580) · AGI, Indiferente General 1529 (1583)',
+    timelinePhase:'540-1050 d.C. (Apogeo ceremonial) · 1580 (Relación Geográfica) · 1591 (Mercedes virreinales)',
+    enlaces:[],
+  },
   { id:17, categoryId:3, name:'Soles Antropomorfos — Oriente',  coords:[20.5888,-100.3899], iconographyOnly:false, shortDescription:'Sol con rostro humano en el extremo oriente del mapa; convención cosmológica mesoamericana.', historicalDesc:'', paleographicAnalysis:'', visualGrammar:'', primarySources:[], bibliography:[], imageUrl:null, agn:null, agi:null, timelinePhase:'', enlaces:[] },
   { id:18, categoryId:3, name:'Soles Antropomorfos — Poniente', coords:[21.1222,-101.6606], iconographyOnly:false, shortDescription:'Sol con rostro humano en el extremo poniente del mapa; eje cosmológico del documento.', historicalDesc:'', paleographicAnalysis:'', visualGrammar:'', primarySources:[], bibliography:[], imageUrl:null, agn:null, agi:null, timelinePhase:'', enlaces:[] },
   { id:19, categoryId:3, name:'La Mojonera de los Indios',      coords:[20.9142,-100.7436], iconographyOnly:false, shortDescription:'Marca territorial indígena; límite simbólico y jurídico representado en el mapa.', historicalDesc:'', paleographicAnalysis:'', visualGrammar:'', primarySources:[], bibliography:[], imageUrl:null, agn:null, agi:null, timelinePhase:'', enlaces:[] },
