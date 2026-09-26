@@ -162,7 +162,34 @@ export const mapPoints = [
     enlaces:[],
   },
   { id:29, categoryId:5, name:'Presidio del Portezuelo', coords:[21.6481,-101.4828], iconographyOnly:false, shortDescription:'Fortín en paso de montaña; nodo de control militar de la frontera chichimeca.', historicalDesc:'', paleographicAnalysis:'', visualGrammar:'', primarySources:[], bibliography:[], imageUrl:null, agn:null, agi:null, timelinePhase:'', enlaces:[] },
-  { id:30, categoryId:5, name:'Presidio de Las Bocas',   coords:[21.9333,-102.1000], iconographyOnly:false, shortDescription:'Presidio en el límite norte del territorio cartografiado; defensa del acceso a tierras chichimecas.', historicalDesc:'', paleographicAnalysis:'', visualGrammar:'', primarySources:[], bibliography:[], imageUrl:null, agn:null, agi:null, timelinePhase:'', enlaces:[] },
+  {
+    id:30, categoryId:5,
+    name:'Presidio de Las Bocas (Las Bocas de Gallardo / San José de Letras)',
+    coords:[21.8210, -101.9960],
+    iconographyOnly:false,
+    shortDescription:'Presidio militar fronterizo erigido para resguardar las caravanas en el límite con Nueva Galicia, frenar los ataques guachichiles y asegurar el tramo del Camino Real entre Ojuelos y Zacatecas.',
+    historicalDesc:'El presidio de Las Bocas fue fundado entre finales de la década de 1560 e inicios de 1570 por el capitán Juan Domínguez bajo instrucciones del doctor Jerónimo de Orozco (Real Audiencia de Guadalajara), siguiendo la estrategia de fortificación de pasos expuestos planteada por Pedro de Ahumada. Ubicado en el extremo noroccidental de la jurisdicción de San Miguel, Las Bocas marcaba la raya fronteriza con el Reino de la Nueva Galicia, sirviendo como el último cerrojo defensivo antes de los desiertos hacia Aguascalientes, Teocaltiche y Zacatecas.\n\nDurante los años más críticos de la Guerra Chichimeca (1570-1585), Las Bocas albergó una guarnición fija de soldados de presidio financiada por las cajas reales para escoltar las conductas de plata y convoyes de carretas. La zona era uno de los núcleos más activos de la resistencia guachichil, registrándose en el Memorial de los Estancieros de 1582 violentas emboscadas en los peñones del puerto. El fuerte quedó inmortalizado como la frontera gráfica más lejana registrada en la cartografía novohispana de 1580.',
+    paleographicAnalysis:'En la pintura de la Relación Geográfica de 1580, el Fuerte de Las Bocas se localiza en el extremo superior izquierdo de la lámina (confín poniente/norte de la ruta). El tlacuilo lo representó mediante una edificación rectangular de fachada sencilla con muros claros, cubierta de dos aguas y vano de acceso en color oscuro. Sobre el Camino Real en rojo, el glosador anotó la leyenda: "las bocas con su fuerte". En las sierras amarillentas con nopaleras que rodean al presidio, el artista indígena dibujó a varios guerreros chichimecas desnudos con arcos tensados y flechas en actitud de acecho.',
+    visualGrammar:'',
+    primarySources:[
+      'AGI, Sevilla, Audiencia de México, legajo 109 — Memorial de los estancieros y vecinos de la frontera chichimeca sobre robos en Las Bocas (1582)',
+      'AGI, Sevilla, Audiencia de Guadalajara, legajo 5, r. 1 — Servicios del capitán Juan Domínguez y órdenes de Jerónimo de Orozco (ca. 1572-1576)',
+      'AGI, Sevilla, Ramo Patronato, legajo 180, r. 107 — Relación y parecer de Pedro de Ahumada sobre fortificar el paso de Las Bocas (1562)',
+      'AGI, Sevilla, Contaduría, legajo 925 — Cuentas de la Real Hacienda sobre sueldos de soldados en Las Bocas (1575-1585)',
+    ],
+    bibliography:[
+      'Powell, Philip Wayne. La guerra chichimeca (1550-1600). FCE, 1977',
+      'Ramírez Ruiz, Marcelo. "Paisajes y cartografía del Camino Real...". En Camino Real de Tierra Adentro por Guanajuato, 2022',
+      'Puig Carrasco, Alberto. "Reconstrucción de la guerra chichimeca y sus efectos en el mapa...". En Temas Americanistas, 2024',
+      'Navarro López, América. El uso de los recursos ambientales en la región de San Miguel y San Felipe... Tesis doctoral, 2022',
+      'Naylor, Thomas H. y Polzer, Charles W. The Presidio and Militia on the Northern Frontier of New Spain... 1986',
+    ],
+    imageUrl:null,
+    agn:'Relación de San Felipe (1571)',
+    agi:'AGI, México 109 (1582) · Guadalajara 5 r. 1 · Patronato 180 r. 107 · Contaduría 925',
+    timelinePhase:'1568 (Fundación) · 1580 (Relación Geográfica) · 1582 (Memorial Estancieros)',
+    enlaces:[],
+  },
 
   // ══════════════════════════════════════════════════════════════════
   // 6. NODOS PERIFÉRICOS
